@@ -51,8 +51,36 @@
 ;;
 ;;; Code:
 
+(require 'rx)
+
+
+;;; Variables and Customizations
+(defgroup sample nil
+  "A sample user interface to be used as a template."
+  :group 'tools)
+
 (defvar sample-command-mode-map nil
   "Keymap for sample major mode.")
+
+
+;;; Font faces section
+(defface sample-keywords-face
+  '((((class color) (background light)) (:foreground "purple"))
+    (((class color) (background dark)) (:foreground "salmon")))
+  "Sample mode face used to highlight keywords."
+  :group 'sample)
+
+(defconst sample-command-font-lock-keywords
+  `(
+    ;; keywords sample
+    (,(rx symbol-start (or "sample" "command" "execute") symbol-end)
+     . sample-keywords-face)
+
+    ;; regexp sample
+    (,(rx symbol-start "execute" (1+ space) (group (1+ word)))
+     (1 font-lock-type-face))
+    )
+  "Sample font face definitions.")
 
 
 (defun sample-command () ;; (arg)
@@ -63,7 +91,6 @@
 
   (let ((buffer (get-buffer-create "*sample command*")))
     (switch-to-buffer buffer)
-    (erase-buffer)
     (sample-command-mode)
     (goto-char (point-min))))
 
@@ -84,6 +111,7 @@ Commands:
   (buffer-disable-undo)
   (setq mode-name "Sample Command"
         major-mode 'sample-command-mode
+        font-lock-defaults '(sample-command-font-lock-keywords)
         ;; goal-column 10
         ;;
         ;; Any more local variables goes here
@@ -92,6 +120,8 @@ Commands:
   (use-local-map sample-command-mode-map)
   (let ((buffer-read-only nil))
     (erase-buffer)
-    ;; TODO: do actual work to buffer
-    (insert "sweet")
+    ;; TODO: do actual work to current buffer
+    (insert "This is a sample command\n")
+    (insert "execute this\n")
+    (insert (format-time-string "%Y-%m-%dT%T"))
     ))
