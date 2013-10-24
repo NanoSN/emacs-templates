@@ -1,0 +1,13 @@
+* Overview
+ Emacs templates to be used for creating new modes.
+
+* Usage
+** Special Mode
+ : sample-special-mode.el
+ Use this file if you want to create a mode similar to *dired-mode*.
+
+* Contribution
+ Simply fork the git repo and issue a pull request.
+
+* License
+GPLv3. See GPL3-LICENSE file for more info.
